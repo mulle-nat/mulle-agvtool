@@ -1,12 +1,12 @@
 #
-# small makefile to fix agvtool into mulle-agvtool
+# small makefile to patch agvtool into mulle-agvtool
 # just say make
 #
 # Coded 2014 by Nat!
 # ====================
 # www.mulle-kybernetik.com
 #
-# This makefile will regenerate itself, when changes to mulle-agvtools
+# This makefile will regenerate itself, when changes to mulle-agvtool
 # have been made
 #
 XCODE:=$(shell xcode-select -p)
