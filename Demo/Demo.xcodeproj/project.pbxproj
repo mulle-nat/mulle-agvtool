@@ -1,0 +1,233 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		41822F8F188BF9C3001BDC26 /* Install mulle-agvtool */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 41822F92188BF9C4001BDC26 /* Build configuration list for PBXAggregateTarget "Install mulle-agvtool" */;
+			buildPhases = (
+				41822F93188BF9CD001BDC26 /* Download and Install mulle-agvtool in a bin directory, local to this project */,
+			);
+			dependencies = (
+			);
+			name = "Install mulle-agvtool";
+			productName = "Install mulle-agvtool";
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXContainerItemProxy section */
+		41822F94188BFA5B001BDC26 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 417F3C34188164480094CB69 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 41822F8F188BF9C3001BDC26;
+			remoteInfo = "Install mulle-agvtool";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		412C0529188C00EA0099B53A /* Demo-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Demo-Info.plist"; sourceTree = "<group>"; };
+		417F3C3C188164480094CB69 /* Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		41D300821883565E0093362E /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		417F3C33188164480094CB69 = {
+			isa = PBXGroup;
+			children = (
+				412C0529188C00EA0099B53A /* Demo-Info.plist */,
+				41D300821883565E0093362E /* README.md */,
+				417F3C3D188164480094CB69 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		417F3C3D188164480094CB69 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				417F3C3C188164480094CB69 /* Demo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		417F3C3B188164480094CB69 /* Demo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 417F3C6D188164480094CB69 /* Build configuration list for PBXNativeTarget "Demo" */;
+			buildPhases = (
+				41A1542B188B3CC700ACFB0A /* Update Build Number for next build */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				41822F95188BFA5B001BDC26 /* PBXTargetDependency */,
+			);
+			name = Demo;
+			productName = TanteChristaWikipedia;
+			productReference = 417F3C3C188164480094CB69 /* Demo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		417F3C34188164480094CB69 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = Mulle;
+				LastUpgradeCheck = 0500;
+				ORGANIZATIONNAME = "Mulle kybernetiK";
+			};
+			buildConfigurationList = 417F3C37188164480094CB69 /* Build configuration list for PBXProject "Demo" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+				de,
+			);
+			mainGroup = 417F3C33188164480094CB69;
+			productRefGroup = 417F3C3D188164480094CB69 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				417F3C3B188164480094CB69 /* Demo */,
+				41822F8F188BF9C3001BDC26 /* Install mulle-agvtool */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		41822F93188BF9CD001BDC26 /* Download and Install mulle-agvtool in a bin directory, local to this project */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Download and Install mulle-agvtool in a bin directory, local to this project";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd ${PROJECT_DIR}\nif [ ! -x bin/mulle-agvtool ]\nthen\n   mkdir bin 2> /dev/null\n   git clone http://www.mulle-kybernetik.com/repositories/mulle-agvtool\n  ( cd mulle-agvtool ; make )\n  ( cd bin ; ln -s ../mulle-agvtool/mulle-agvtool )\nfi\n\nif [ ! -x bin/mulle-agvtool ]\nthen\n   echo \"failed to install mulle-agvtool\" >&2\nfi";
+			showEnvVarsInLog = 0;
+		};
+		41A1542B188B3CC700ACFB0A /* Update Build Number for next build */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Update Build Number for next build";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# you would do this after the link phase\n# it sets the build number for the NEXT build\n\nexport PATH=${PROJECT_DIR}/bin:$PATH\n\nmulle-agvtool -noscm bump -increment-minor-version &\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		41822F95188BFA5B001BDC26 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 41822F8F188BF9C3001BDC26 /* Install mulle-agvtool */;
+			targetProxy = 41822F94188BFA5B001BDC26 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		417F3C6B188164480094CB69 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGETNAME)";
+			};
+			name = Debug;
+		};
+		417F3C6C188164480094CB69 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGETNAME)";
+			};
+			name = Release;
+		};
+		417F3C6E188164480094CB69 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = "$(MULLE_APP_VERSION).1850";
+				INFOPLIST_FILE = "$(SRCROOT)/Demo-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				MULLE_APP_VERSION = 18.48;
+				PRODUCT_NAME = Demo;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_FILE = app_version.c;
+			};
+			name = Debug;
+		};
+		417F3C6F188164480094CB69 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = "$(MULLE_APP_VERSION).1850";
+				INFOPLIST_FILE = "$(SRCROOT)/Demo-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				MULLE_APP_VERSION = 18.48;
+				PRODUCT_NAME = Demo;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_FILE = app_version.c;
+			};
+			name = Release;
+		};
+		41822F90188BF9C4001BDC26 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		41822F91188BF9C4001BDC26 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		417F3C37188164480094CB69 /* Build configuration list for PBXProject "Demo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				417F3C6B188164480094CB69 /* Debug */,
+				417F3C6C188164480094CB69 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		417F3C6D188164480094CB69 /* Build configuration list for PBXNativeTarget "Demo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				417F3C6E188164480094CB69 /* Debug */,
+				417F3C6F188164480094CB69 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		41822F92188BF9C4001BDC26 /* Build configuration list for PBXAggregateTarget "Install mulle-agvtool" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				41822F90188BF9C4001BDC26 /* Debug */,
+				41822F91188BF9C4001BDC26 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 417F3C34188164480094CB69 /* Project object */;
+}

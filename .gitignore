@@ -1,3 +1,9 @@
 agvtool
 mulle-agvtool
 *.bak
+Build/
+
+*.xcbkptlist
+*.xcsettings
+*.xcuserstate
+*.xcworkspacedata
