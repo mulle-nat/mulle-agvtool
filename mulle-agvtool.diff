@@ -1,0 +1,26 @@
+7c7
+< #
+---
+> # Fixed escaping: Nat! (19.1.2014) 
+80c80
+<     VERSION_NUM=$(sed -n 's/^[ 	]*CURRENT_PROJECT_VERSION =[ 	]*\(.*\);.*$/\1/p' "${PROJECT}" | sort -u)
+---
+>     VERSION_NUM=$(sed -n 's/^[ 	]*CURRENT_PROJECT_VERSION =[ 	]*[\"]*\(.*\)[\"]*;.*$/\1/p' "${PROJECT}" | sort -u)
+139,141c139,147
+<     sed "s/\(^[ 	]*CURRENT_PROJECT_VERSION =[ 	]*\)\(.*\)\(;.*$\)/\1${NEW_VERSION_NUM}\3/" "${PROJECT}" > "${PROJECT}.new1"
+<     sed "s/\(^[ 	]*DYLIB_CURRENT_VERSION =[ 	]*\)\(.*\)\(;.*$\)/\1${NEW_VERSION_NUM}\3/" "${PROJECT}.new1" > "${PROJECT}.new2"
+< 	sed "s/\(^[ 	]*MODULE_VERSION =[ 	]*\)\(.*\)\(;.*$\)/\1${NEW_VERSION_NUM}\3/" "${PROJECT}.new2" > "${PROJECT}.new3"
+---
+> 
+>     NEEDS_ESCAPE=`echo "${NEW_VERSION_NUM}" | tr -d '[^0-9\.]'`
+>     if [ z"${NEEDS_ESCAPE}" != z ]; then
+>        NEW_VERSION_NUM="\\\"${NEW_VERSION_NUM}\\\"";
+>     fi
+> 
+>     sed "s/\(^[ 	]*CURRENT_PROJECT_VERSION =[ 	]*\)[\"]*\(.*\)[\"]*\(;.*$\)/\1${NEW_VERSION_NUM}\3/" "${PROJECT}" > "${PROJECT}.new1"
+>     sed "s/\(^[ 	]*DYLIB_CURRENT_VERSION =[ 	]*\)[\"]*\(.*\)[\"]*\(;.*$\)/\1${NEW_VERSION_NUM}\3/" "${PROJECT}.new1" > "${PROJECT}.new2"
+> 	sed "s/\(^[ 	]*MODULE_VERSION =[ 	]*\)[\"]*\(.*\)[\"]*\(;.*$\)/\1${NEW_VERSION_NUM}\3/" "${PROJECT}.new2" > "${PROJECT}.new3"
+145c151
+< 		sed "/^[ 	]*<key>CFBundleVersion.*$/,/.*$/s/\(^[ 	]*<string>\)\(.*\)\(<\/string>.*$\)/\1${NEW_VERSION_NUM}\3/" "${PROJECT}.new3" > "${PROJECT}.new4"
+---
+> 		sed "/^[ 	]*<key>CFBundleVersion.*$/,/.*$/s/\(^[ 	]*<string>\)[\"]*\(.*\)[\"]*\(<\/string>.*$\)/\1${NEW_VERSION_NUM}\3/" "${PROJECT}.new3" > "${PROJECT}.new4"

@@ -19,13 +19,19 @@ GZIP:=bzip2
 
 .PHONY: clean
 
-all:	mulle-agvtool
+all:	mulle-agvtool mulle-agvtool.diff
 	@ NEWSHASUM="$(shell shasum mulle-agvtool | awk '{ print $$1 }')" ; if [ "$$NEWSHASUM" != "$(SHASUM)" ] ; then NEWPATCHSTRING=$(shell diff -u "$(AGVTOOL)" mulle-agvtool | $(GZIP) -9 | base64 ); mv Makefile Makefile.bak ; cat Makefile.bak | sed "s|^PATCHSTRING:=.*|PATCHSTRING:=$$NEWPATCHSTRING|" | sed "s|^SHASUM:=.*|SHASUM:=$$NEWSHASUM|" > Makefile; echo "Makefile updated" ; fi 
 
 mulle-agvtool:	$(AGVTOOL) 
 	cp $< $@
 	chmod 755 $@
 	echo $(PATCHSTRING) | base64 -D | $(GZIP) -d -c | patch $@ 
+
+# this is used so one can look at the changes in git
+# more easily 
+
+mulle-agvtool.diff:	$(AGVTOOL) mulle-agvtool
+	- diff "$(AGVTOOL)" mulle-agvtool > mulle-agvtool.diff
 
 clean:	
 	@- rm mulle-agvtool 2> /dev/null
