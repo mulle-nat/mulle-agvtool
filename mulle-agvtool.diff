@@ -69,7 +69,7 @@
 >         if [ z"${PODSPEC}" != z"" ] ; then
 >            echo "Updating version in ${PODSPEC}..."
 > 	   echo
-> 	   sed "s/\(^[ 	]*[a-zA-Z_][a-zA-Z0-9_]*\.version[ 	]*=[ 	]*\)[\"\'].*[\"\'][ 	]*\(.*$\)/\1${NEW_VERSION_NUM}\2/" "${PODSPEC}" > "${PODSPEC}.new"
+> 	   sed "s/\(^[ 	]*[a-zA-Z_][a-zA-Z0-9_]*\.version[ 	]*=[ 	]*\)[\"\']*.*[\"\']*[ 	]*\(.*$\)/\1${NEW_VERSION_NUM}\2/" "${PODSPEC}" > "${PODSPEC}.new"
 >  	   mv "${PODSPEC}.new" "${PODSPEC}"
 > 	fi
 >     fi
