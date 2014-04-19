@@ -1,25 +1,27 @@
-6a7,8
+3a4
+> # version: 18.48.2
+6a8,9
 > # Fixed escaping: Nat! (19.1.2014) 
-> # Udates podspec files too: Nat! (19.4.2014) 
-8d9
+> # Updates podspec files too: Nat! (19.4.2014) 
+8d10
 < 
-12c13
+12c14
 <     echo "${COMMAND_BASENAME} - Apple-generic versioning tool for Xcode projects"
 ---
 >     echo "${COMMAND_BASENAME} - Apple-generic compatible versioning tool for Xcode projects and CocoaPods podspecs"
-16c17
+16c18
 <     echo "    ${COMMAND_BASENAME} [-noscm | -usecvs | -usesvn] next-version | bump [-all]"
 ---
 >     echo "    ${COMMAND_BASENAME} [-nopodspec] [-noscm | -usecvs | -usesvn] next-version | bump [-all]"
-20c21
+20c22
 <     echo "    ${COMMAND_BASENAME} [-noscm | -usecvs | -usesvn] new-version [-all] <versNum>"
 ---
 >     echo "    ${COMMAND_BASENAME} [-nopodspec] [-noscm | -usecvs | -usesvn] new-version [-all] <versNum>"
-67c68
+67c69
 < 		echo "There are multiple projects in this directory.  agvtool does not work with multiple projects in the same directory."
 ---
 > 		echo "There are multiple projects in this directory. mulle-agvtool does not work with multiple projects in the same directory."
-78a80,97
+78a81,98
 > 
 > find_podspec () {
 >     PODSPEC=""
@@ -38,11 +40,11 @@
 > }
 > 
 > 
-80c99
+80c100
 <     VERSION_NUM=$(sed -n 's/^[ 	]*CURRENT_PROJECT_VERSION =[ 	]*\(.*\);.*$/\1/p' "${PROJECT}" | sort -u)
 ---
 >     VERSION_NUM=$(sed -n 's/^[ 	]*CURRENT_PROJECT_VERSION =[ 	]*[\"]*\(.*\)[\"]*;.*$/\1/p' "${PROJECT}" | sort -u)
-139,141c158,166
+139,141c159,167
 <     sed "s/\(^[ 	]*CURRENT_PROJECT_VERSION =[ 	]*\)\(.*\)\(;.*$\)/\1${NEW_VERSION_NUM}\3/" "${PROJECT}" > "${PROJECT}.new1"
 <     sed "s/\(^[ 	]*DYLIB_CURRENT_VERSION =[ 	]*\)\(.*\)\(;.*$\)/\1${NEW_VERSION_NUM}\3/" "${PROJECT}.new1" > "${PROJECT}.new2"
 < 	sed "s/\(^[ 	]*MODULE_VERSION =[ 	]*\)\(.*\)\(;.*$\)/\1${NEW_VERSION_NUM}\3/" "${PROJECT}.new2" > "${PROJECT}.new3"
@@ -56,11 +58,11 @@
 >     sed "s/\(^[ 	]*CURRENT_PROJECT_VERSION[ 	]*=[ 	]*\)[\"]*\(.*\)[\"]*\(;.*$\)/\1${NEW_VERSION_NUM}\3/" "${PROJECT}" > "${PROJECT}.new1"
 >     sed "s/\(^[ 	]*DYLIB_CURRENT_VERSION[ 	]*=[ 	]*\)[\"]*\(.*\)[\"]*\(;.*$\)/\1${NEW_VERSION_NUM}\3/" "${PROJECT}.new1" > "${PROJECT}.new2"
 > 	sed "s/\(^[ 	]*MODULE_VERSION[ 	]*=[ 	]*\)[\"]*\(.*\)[\"]*\(;.*$\)/\1${NEW_VERSION_NUM}\3/" "${PROJECT}.new2" > "${PROJECT}.new3"
-145c170
+145c171
 < 		sed "/^[ 	]*<key>CFBundleVersion.*$/,/.*$/s/\(^[ 	]*<string>\)\(.*\)\(<\/string>.*$\)/\1${NEW_VERSION_NUM}\3/" "${PROJECT}.new3" > "${PROJECT}.new4"
 ---
 > 		sed "/^[ 	]*<key>CFBundleVersion.*$/,/.*$/s/\(^[ 	]*<string>\)[\"]*\(.*\)[\"]*\(<\/string>.*$\)/\1${NEW_VERSION_NUM}\3/" "${PROJECT}.new3" > "${PROJECT}.new4"
-153a179,189
+153a180,190
 > # If we find a podspec, we update the version of that as well (per default)
 >     if [ z"${UPDATE_PODSPEC}" = z"YES" ] ; then
 > 	find_podspec
@@ -72,7 +74,7 @@
 > 	fi
 >     fi
 > 
-472a509,513
+472a510,514
 > UPDATE_PODSPEC="YES"
 > if [ z"$1" = z"-nopodspec" ] ; then
 >     UPDATE_PODSPEC="NO"
