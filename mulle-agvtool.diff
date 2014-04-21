@@ -1,10 +1,12 @@
 3a4
-> # version: 18.48.3
-6a8,9
+> # version: 18.48.4
+7,8c8,10
+< #
+< 
+---
 > # Fixed escaping: Nat! (19.1.2014) 
 > # Updates podspec files too: Nat! (19.4.2014) 
-8d10
-< 
+> # Preserves possible quoting characters:   Nat! (21.4.2014)
 12c14
 <     echo "${COMMAND_BASENAME} - Apple-generic versioning tool for Xcode projects"
 ---
@@ -55,9 +57,9 @@
 >        NEW_VERSION_NUM="\\\"${NEW_VERSION_NUM}\\\"";
 >     fi
 > 
->     sed "s/\(^[ 	]*CURRENT_PROJECT_VERSION[ 	]*=[ 	]*\)[\"]*\(.*\)[\"]*\(;.*$\)/\1${NEW_VERSION_NUM}\3/" "${PROJECT}" > "${PROJECT}.new1"
->     sed "s/\(^[ 	]*DYLIB_CURRENT_VERSION[ 	]*=[ 	]*\)[\"]*\(.*\)[\"]*\(;.*$\)/\1${NEW_VERSION_NUM}\3/" "${PROJECT}.new1" > "${PROJECT}.new2"
-> 	sed "s/\(^[ 	]*MODULE_VERSION[ 	]*=[ 	]*\)[\"]*\(.*\)[\"]*\(;.*$\)/\1${NEW_VERSION_NUM}\3/" "${PROJECT}.new2" > "${PROJECT}.new3"
+>     sed "s/\(^[ 	]*CURRENT_PROJECT_VERSION[ 	]*=[ 	]*\)\([\"]*\).*[\"]*\(;.*$\)/\1\2${NEW_VERSION_NUM}\2\3/" "${PROJECT}" > "${PROJECT}.new1"
+>     sed "s/\(^[ 	]*DYLIB_CURRENT_VERSION[ 	]*=[ 	]*\)\([\"]*\).*[\"]*\(;.*$\)/\1\2${NEW_VERSION_NUM}\2\3/" "${PROJECT}.new1" > "${PROJECT}.new2"
+> 	sed "s/\(^[ 	]*MODULE_VERSION[ 	]*=[ 	]*\)\([\"]*\).*[\"]*\(;.*$\)/\1$\2{NEW_VERSION_NUM}\2\3/" "${PROJECT}.new2" > "${PROJECT}.new3"
 145c171
 < 		sed "/^[ 	]*<key>CFBundleVersion.*$/,/.*$/s/\(^[ 	]*<string>\)\(.*\)\(<\/string>.*$\)/\1${NEW_VERSION_NUM}\3/" "${PROJECT}.new3" > "${PROJECT}.new4"
 ---
@@ -69,7 +71,7 @@
 >         if [ z"${PODSPEC}" != z"" ] ; then
 >            echo "Updating version in ${PODSPEC}..."
 > 	   echo
-> 	   sed "s/\(^[ 	]*[a-zA-Z_][a-zA-Z0-9_]*\.version[ 	]*=[ 	]*\)[\"\']*.*[\"\']*[ 	]*\(.*$\)/\1${NEW_VERSION_NUM}\2/" "${PODSPEC}" > "${PODSPEC}.new"
+> 	   sed "s/\(^[ 	]*[a-zA-Z_][a-zA-Z0-9_]*\.version[ 	]*=[ 	]*\)\([\"\']*\).*[\"\']*[ 	]*\(.*$\)/\1\2${NEW_VERSION_NUM}\2\3/" "${PODSPEC}" > "${PODSPEC}.new"
 >  	   mv "${PODSPEC}.new" "${PODSPEC}"
 > 	fi
 >     fi
