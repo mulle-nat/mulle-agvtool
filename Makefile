@@ -22,6 +22,9 @@ GZIP:=bzip2
 all:	mulle-agvtool mulle-agvtool.diff
 	@ NEWSHASUM="$(shell shasum mulle-agvtool | awk '{ print $$1 }')" ; if [ "$$NEWSHASUM" != "$(SHASUM)" ] ; then NEWPATCHSTRING=$(shell diff -u "$(AGVTOOL)" mulle-agvtool | $(GZIP) -9 | base64 ); mv Makefile Makefile.bak ; cat Makefile.bak | sed "s|^PATCHSTRING:=.*|PATCHSTRING:=$$NEWPATCHSTRING|" | sed "s|^SHASUM:=.*|SHASUM:=$$NEWSHASUM|" > Makefile; echo "Makefile updated" ; fi 
 
+install:	all
+	install -S -m 755 mulle-agvtool /usr/local/bin
+
 mulle-agvtool:	$(AGVTOOL) 
 	cp $< $@
 	chmod 755 $@
