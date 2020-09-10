@@ -1,29 +1,30 @@
 3a4
-> # version: 18.48.4
-7,8c8,10
-< #
+> # version: 18.48.5
+7c8,12
 < 
 ---
-> # Fixed escaping: Nat! (19.1.2014) 
-> # Updates podspec files too: Nat! (19.4.2014) 
+> # Last mod: Scott Tooker (12/8/2005)
+> #
+> # Fixed escaping: Nat! (19.1.2014)
+> # Updates podspec files too: Nat! (19.4.2014)
 > # Preserves possible quoting characters:   Nat! (21.4.2014)
-12c14
+11c16
 <     echo "${COMMAND_BASENAME} - Apple-generic versioning tool for Xcode projects"
 ---
 >     echo "${COMMAND_BASENAME} - Apple-generic compatible versioning tool for Xcode projects and CocoaPods podspecs"
-16c18
+15c20
 <     echo "    ${COMMAND_BASENAME} [-noscm | -usecvs | -usesvn] next-version | bump [-all]"
 ---
 >     echo "    ${COMMAND_BASENAME} [-nopodspec] [-noscm | -usecvs | -usesvn] next-version | bump [-all]"
-20c22
+19c24
 <     echo "    ${COMMAND_BASENAME} [-noscm | -usecvs | -usesvn] new-version [-all] <versNum>"
 ---
 >     echo "    ${COMMAND_BASENAME} [-nopodspec] [-noscm | -usecvs | -usesvn] new-version [-all] <versNum>"
-67c69
+66c71
 < 		echo "There are multiple projects in this directory.  agvtool does not work with multiple projects in the same directory."
 ---
 > 		echo "There are multiple projects in this directory. mulle-agvtool does not work with multiple projects in the same directory."
-78a81,98
+77a83,100
 > 
 > find_podspec () {
 >     PODSPEC=""
@@ -42,11 +43,15 @@
 > }
 > 
 > 
-80c100
+79c102
 <     VERSION_NUM=$(sed -n 's/^[ 	]*CURRENT_PROJECT_VERSION =[ 	]*\(.*\);.*$/\1/p' "${PROJECT}" | sort -u)
 ---
 >     VERSION_NUM=$(sed -n 's/^[ 	]*CURRENT_PROJECT_VERSION =[ 	]*[\"]*\(.*\)[\"]*;.*$/\1/p' "${PROJECT}" | sort -u)
-139,141c159,167
+118c141
+<     
+---
+> 
+138,140c161,169
 <     sed "s/\(^[ 	]*CURRENT_PROJECT_VERSION =[ 	]*\)\(.*\)\(;.*$\)/\1${NEW_VERSION_NUM}\3/" "${PROJECT}" > "${PROJECT}.new1"
 <     sed "s/\(^[ 	]*DYLIB_CURRENT_VERSION =[ 	]*\)\(.*\)\(;.*$\)/\1${NEW_VERSION_NUM}\3/" "${PROJECT}.new1" > "${PROJECT}.new2"
 < 	sed "s/\(^[ 	]*MODULE_VERSION =[ 	]*\)\(.*\)\(;.*$\)/\1${NEW_VERSION_NUM}\3/" "${PROJECT}.new2" > "${PROJECT}.new3"
@@ -60,11 +65,11 @@
 >     sed "s/\(^[ 	]*CURRENT_PROJECT_VERSION[ 	]*=[ 	]*\)\([\"]*\).*[\"]*\(;.*$\)/\1\2${NEW_VERSION_NUM}\2\3/" "${PROJECT}" > "${PROJECT}.new1"
 >     sed "s/\(^[ 	]*DYLIB_CURRENT_VERSION[ 	]*=[ 	]*\)\([\"]*\).*[\"]*\(;.*$\)/\1\2${NEW_VERSION_NUM}\2\3/" "${PROJECT}.new1" > "${PROJECT}.new2"
 > 	sed "s/\(^[ 	]*MODULE_VERSION[ 	]*=[ 	]*\)\([\"]*\).*[\"]*\(;.*$\)/\1$\2{NEW_VERSION_NUM}\2\3/" "${PROJECT}.new2" > "${PROJECT}.new3"
-145c171
+144c173
 < 		sed "/^[ 	]*<key>CFBundleVersion.*$/,/.*$/s/\(^[ 	]*<string>\)\(.*\)\(<\/string>.*$\)/\1${NEW_VERSION_NUM}\3/" "${PROJECT}.new3" > "${PROJECT}.new4"
 ---
 > 		sed "/^[ 	]*<key>CFBundleVersion.*$/,/.*$/s/\(^[ 	]*<string>\)[\"]*\(.*\)[\"]*\(<\/string>.*$\)/\1${NEW_VERSION_NUM}\3/" "${PROJECT}.new3" > "${PROJECT}.new4"
-153a180,190
+152a182,192
 > # If we find a podspec, we update the version of that as well (per default)
 >     if [ z"${UPDATE_PODSPEC}" = z"YES" ] ; then
 > 	find_podspec
@@ -76,9 +81,167 @@
 > 	fi
 >     fi
 > 
-472a510,514
+160c200
+<           grep INFOPLIST_FILE "${PROJECT}" | 
+---
+>           grep INFOPLIST_FILE "${PROJECT}" |
+175c215
+<  
+---
+> 
+210c250
+<         
+---
+> 
+216c256
+<     
+---
+> 
+227,228c267,268
+< 		
+<     MVERS=`sed "/<key>CFBundleShortVersionString<\/key>/ { N ; s/\(^[ 	]*<key>CFBundleShortVersionString<\/key>[ 	]*\n[ 	]*<string>\)\(.*\)\(<\/string>.*$\)/\2/ ; p ; } 
+---
+> 
+>     MVERS=`sed "/<key>CFBundleShortVersionString<\/key>/ { N ; s/\(^[ 	]*<key>CFBundleShortVersionString<\/key>[ 	]*\n[ 	]*<string>\)\(.*\)\(<\/string>.*$\)/\2/ ; p ; }
+251c291
+<     
+---
+> 
+263c303
+<         
+---
+> 
+278c318
+<  
+---
+> 
+287c327
+<             MVERS=`sed "/<key>CFBundleShortVersionString<\/key>/ { N ; s/\(^[ 	]*<key>CFBundleShortVersionString<\/key>[ 	]*\n[ 	]*<string>\)\(.*\)\(<\/string>.*$\)/\2/ ; p ; } 
+---
+>             MVERS=`sed "/<key>CFBundleShortVersionString<\/key>/ { N ; s/\(^[ 	]*<key>CFBundleShortVersionString<\/key>[ 	]*\n[ 	]*<string>\)\(.*\)\(<\/string>.*$\)/\2/ ; p ; }
+289c329
+< 			
+---
+> 
+320c360
+<     
+---
+> 
+326c366
+<         
+---
+> 
+341c381
+<  
+---
+> 
+354c394
+< 			
+---
+> 
+358c398
+<     
+---
+> 
+361c401
+<         "${CVS_TOOL_PATH}" commit -m "Change marketing version to ${NEW_VERSION_NUM}" 
+---
+>         "${CVS_TOOL_PATH}" commit -m "Change marketing version to ${NEW_VERSION_NUM}"
+371c411
+< 	
+---
+> 
+378c418
+<         
+---
+> 
+398c438
+< 	
+---
+> 
+406c446
+<         
+---
+> 
+411c451
+<         
+---
+> 
+437c477
+<     
+---
+> 
+440c480
+<     
+---
+> 
+452c492
+<             
+---
+> 
+471a512,516
 > UPDATE_PODSPEC="YES"
 > if [ z"$1" = z"-nopodspec" ] ; then
 >     UPDATE_PODSPEC="NO"
 >     shift
 > fi
+538c583
+<     
+---
+> 
+590c635
+<     
+---
+> 
+596c641
+<     
+---
+> 
+623c668
+<     
+---
+> 
+640c685
+<     
+---
+> 
+665c710
+<     
+---
+> 
+673c718
+<     
+---
+> 
+677c722
+<     
+---
+> 
+692c737
+<         shift 
+---
+>         shift
+696c741
+<         else 
+---
+>         else
+702c747
+<      
+---
+> 
+708c753
+<      
+---
+> 
+712c757
+<         ARG1=BYTAG   
+---
+>         ARG1=BYTAG
+714c759
+<     
+---
+> 
+738c783
+<     
+---
+> 
